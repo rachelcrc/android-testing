@@ -16,10 +16,11 @@
 
 package com.example.android.testing.espresso.multiprocesssample;
 
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.filters.LargeTest;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import android.util.Log;
+
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.LargeTest;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -45,12 +46,16 @@ public class ExampleInstrumentedTest {
     private static final String DEFAULT_PROC_NAME =
             "com.example.android.testing.espresso.multiprocesssample";
 
+    @Rule
+    public RepeatRule repeatRule = new RepeatRule();
+
     @Before
     public void launchActivity() {
         ActivityScenario.launch(DefaultProcessActivity.class);
     }
 
     @Test
+    @Repeat(100)
     public void verifyAssertingOnViewInRemoteProcessIsSuccessful() {
         Log.d(TAG, "Checking main process name...");
         onView(withId(R.id.textNamedProcess)).check(matches(withText(is(DEFAULT_PROC_NAME))));
